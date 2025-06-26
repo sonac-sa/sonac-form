@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FICHE D'INFORMATIONS SUR VOTRE ACHETEUR</title>
+<style>
+    /* RESET & GLOBAL */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary-color: #0a2463;
+      --secondary-color: #1e3a8a;
+      --accent-color: #1e40af;
+      --light-color: #f8fbff;
+      --dark-color: #2c3e50;
+      --success-color: #00b894;
+      --warning-color: #fdcb6e;
+      --danger-color: #ff6b6b;
+      --text-color: #2d3436;
+      --border-radius: 15px;
+      --box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      padding: 15px;
+      min-height: 100vh;
+      color: var(--text-color);
+    }
+
+    .container {
+      background: #fff;
+      max-width: 1200px;
+      margin: 15px auto;
+      padding: 25px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* WATERMARK OVERLAY */
+    .watermark-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      font-size: 2.5em;
+      color: rgba(0, 0, 0, 0.03);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+      font-weight: bold;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* EN-TÊTE avec design premium */
+    header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: #fff;
+      padding: 40px 25px;
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+      border-radius: var(--border-radius);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .header-confidentiel {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 25px;
+      font-size: 0.9em;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    header h1 {
+      font-size: 2.2em;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      opacity: 0.95;
+    }
+
+    .header-details {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      font-size: 0.9em;
+      color: #fff;
+    }
+
+    .header-details span {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      padding: 6px 12px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-details .address::before { content: "📍"; margin-right: 8px; }
+    .header-details .phone::before { content: "📞"; margin-right: 8px; }
+    .header-details .email::before { content: "✉️"; margin-right: 8px; }
+
+    /* ALERTES DE CONFIDENTIALITÉ */
+    .confidential-alerts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      border-left: 5px solid;
+      transition: var(--transition);
+    }
+
+    .alert:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
+
+    .alert.confidential {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      border-left-color: #ff6b6b;
+      color: #721c24;
+    }
+
+    .alert.compliance {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      border-left-color: #00d2ff;
+      color: #155724;
+    }
+
+    .alert-icon {
+      font-size: 1.8em;
+      margin-right: 15px;
+    }
+
+    /* BOUTONS D'ACTION */
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      border: none;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+    }
+
+    .action-btn.secondary {
+      background: linear-gradient(135deg, #6c5ce7 0%, #a55eea 100%);
+      color: white;
+    }
+
+    .action-btn i {
+      margin-right: 8px;
+      font-size: 1.2em;
+    }
+
+    /* FIELDSET avec design moderne */
+    fieldset {
+      border: none;
+      background: linear-gradient(135deg, #f8fbff 0%, #f0f8ff 100%);
+      padding: 30px;
+      margin-bottom: 25px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border-left: 6px solid var(--primary-color);
+      position: relative;
+      transition: var(--transition);
+    }
+
+    fieldset:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    }
+
+    fieldset::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    legend {
+      font-weight: 700;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #0a2463 0%, #1e3a8a 100%);
+      color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(10, 36, 99, 0.4);
+      font-size: 1.1em;
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    /* GRILLE RESPONSIVE */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* INPUTS avec design premium */
+    label {
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-color);
+      font-size: 0.95em;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      padding: 12px 18px;
+      margin-bottom: 15px;
+      border: 2px solid #e8ecf4;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+      transition: var(--transition);
+      font-size: 1em;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+      outline: none;
+      background: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--primary-color) 50%),
+                        linear-gradient(135deg, var(--primary-color) 50%, transparent 50%);
+      background-position: right 20px top 20px, right 15px top 20px;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+
+    /* TABLEAU FINANCIER avec design 3D avancé */
+    .table-container {
+      overflow-x: auto;
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      background: linear-gradient(135deg, #0a2463 0%, #1e3a8a 100%);
+      padding: 5px;
+      box-shadow: 0 15px 35px rgba(10, 36, 99, 0.3);
+      position: relative;
+      z-index: 1;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .table-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+      z-index: -1;
+      border-radius: var(--border-radius);
+    }
+
+    .table-finances-wrapper {
+      transform: translateZ(20px);
+      transition: transform 0.5s ease;
+      border-radius: calc(var(--border-radius) - 5px);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .table-container:hover .table-finances-wrapper {
+      transform: translateZ(30px) rotateX(2deg);
+    }
+
+    .table-finances {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: calc(var(--border-radius) - 5px);
+      overflow: hidden;
+      transform-style: preserve-3d;
+    }
+
+    .table-finances th {
+      background: linear-gradient(to bottom, #0a2463, #1e3a8a);
+      color: white;
+      padding: 15px 12px;
+      text-align: center;
+      font-weight: 700;
+      border-bottom: 2px solid #0a2463;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .table-finances th::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .table-container:hover .table-finances th::after {
+      transform: translateX(100%);
+    }
+
+    .table-finances td {
+      padding: 12px;
+      text-align: center;
+      background: white;
+      border-bottom: 1px solid #f0f0f0;
+      color: #333;
+      transition: background-color 0.3s ease;
+    }
+
+    .table-finances tr:hover td {
+      background-color: #f8f8ff;
+    }
+
+    .table-finances td:first-child {
+      background: linear-gradient(135deg, #f8f9ff 0%, #eef1fa 100%);
+      font-weight: 600;
+      color: #2c3e50;
+      text-align: left;
+      padding-left: 20px;
+      border-right: 2px solid #eef1fa;
+    }
+
+    .table-finances input {
+      border: 1px solid #e0e0e0;
+      padding: 8px 12px;
+      border-radius: 8px;
+      width: 100%;
+      text-align: right;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .table-finances input:focus {
+      border-color: #6c5ce7;
+      box-shadow: 0 0 15px rgba(108, 92, 231, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* COMMENT BOX BELOW FINANCIAL TABLE */
+    .finance-comment-group {
+      margin-top: 20px;
+      grid-column: 1 / -1;
+    }
+
+    .finance-comment-group label {
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .finance-comment-group textarea {
+      min-height: 100px;
+      border: 2px solid #a8cde0;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #fdfefe 0%, #ebf5fa 100%);
+    }
+
+    .finance-comment-group textarea:focus {
+      border-color: #6c5ce7;
+      box-shadow: 0 0 15px rgba(108, 92, 231, 0.4), inset 0 2px 5px rgba(108, 92, 231, 0.2);
+    }
+
+    /* DOCUMENTS À JOINDRE */
+    .documents-section {
+      background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+      border: 2px solid #fdcb6e;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      margin: 25px 0;
+      transition: var(--transition);
+    }
+
+    .documents-section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(253, 203, 110, 0.3);
+    }
+
+    .documents-section h3 {
+      color: #2d3436;
+      margin-bottom: 15px;
+      font-size: 1.2em;
+    }
+
+    .documents-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .documents-list li {
+      background: rgba(255,255,255,0.7);
+      margin: 5px 0;
+      padding: 10px 15px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: var(--transition);
+    }
+
+    .documents-list li:hover {
+      background: rgba(255,255,255,0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .documents-list li::before {
+      content: "📎";
+      margin-right: 12px;
+      font-size: 1.2em;
+    }
+
+    /* SIGNATURE ÉLECTRONIQUE AVANCÉE */
+    .signature-section {
+      background: linear-gradient(135deg, #f6f9fc 0%, #eef2f7 100%);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-top: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-left: 6px solid #6c5ce7;
+      position: relative;
+    }
+
+    .signature-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #6c5ce7, #a55eea, #6c5ce7);
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    .signature-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .signature-icon {
+      background: linear-gradient(135deg, #6c5ce7 0%, #a55eea 100%);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+    }
+
+    .signature-title {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .signature-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .signature-pad {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      border: 1px solid #e8ecf4;
+    }
+
+    .signature-pad-container {
+      border: 2px dashed #e8ecf4;
+      border-radius: 8px;
+      height: 150px;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signature-pad-container canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .signature-pad-placeholder {
+      color: #a0aec0;
+      font-style: italic;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .signature-certificate {
+      background: linear-gradient(135deg, #f8f9ff 0%, #eef1fa 100%);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      border: 1px solid #e8ecf4;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .certificate-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      opacity: 0.1;
+      font-size: 5em;
+      color: #6c5ce7;
+    }
+
+    .certificate-info {
+      position: relative;
+      z-index: 1;
+    }
+
+    .certificate-status {
+      display: inline-block;
+      padding: 5px 10px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    /* PIED DE PAGE */
+    footer {
+      background: linear-gradient(135deg, #0a2463 0%, #1e3a8a 100%);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .footer-details {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 15px;
+      font-size: 0.9em;
+    }
+
+    .footer-details span {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
+    /* RESPONSIVE */
+    @media screen and (max-width: 768px) {
+      .container { margin: 10px; padding: 15px; }
+      header h1 { font-size: 1.8em; }
+      .confidential-alerts { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .header-details, .footer-details { flex-direction: column; align-items: center; }
+      .action-buttons { flex-direction: column; }
+      .action-btn { width: 100%; }
+    }
+
+    /* ANIMATIONS ET EFFETS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.6); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    fieldset {
+      animation: fadeIn 0.5s ease-out forwards, glow 3s infinite;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    fieldset:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    legend {
+      position: relative;
+      overflow: hidden;
+    }
+
+    legend::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+      animation: shimmer 3s infinite;
+    }
+
+    .alert, .documents-section, .signature-section {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .form-group {
+      animation: slideIn 0.3s ease-out forwards;
+      opacity: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .form-group:hover {
+      transform: translateY(-3px);
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+
+    .documents-list li {
+      animation: float 5s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.5s);
+    }
+
+    .documents-list li:nth-child(1) { --i: 1; }
+    .documents-list li:nth-child(2) { --i: 2; }
+    .documents-list li:nth-child(3) { --i: 3; }
+    .documents-list li:nth-child(4) { --i: 4; }
+
+    .signature-icon i {
+      animation: rotate 10s linear infinite;
+    }
+
+    .action-btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+    }
+
+    .action-btn:hover::after {
+      animation: shimmer 1s forwards;
+    }
+
+    /* IMPRESSION */
+    @media print {
+      @page { size: A4; margin: 10mm; }
+
+      body { background: white; }
+      .container { box-shadow: none; margin: 0; padding: 10px; }
+
+      .action-buttons, .download-btn { display: none; }
+
+      /* Force white background for all elements */
+      header, fieldset, .table-container, .alert, .documents-section, footer, .signature-section {
+        background: white !important;
+        box-shadow: none !important;
+        border-image: none !important;
+        border: 1px solid #ccc !important;
+        border-left: 4px solid #667eea !important;
+        break-inside: avoid;
+      }
+
+      legend, .signature-header {
+        background: #eee !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+      }
+
+      .table-finances, .table-finances th, .table-finances td {
+        background: white !important;
+        border: 1px solid #ccc !important;
+        color: #000 !important;
+      }
+
+      .header-confidentiel {
+        background: #f0f0f0 !important;
+        color: #C00 !important;
+        box-shadow: none !important;
+      }
+
+      .watermark-overlay {
+        display: none;
+      }
+
+      input, select, textarea {
+        background: #f0f0f0 !important;
+        border: 1px solid #ccc !important;
+      }
+
+      .finance-comment-group textarea {
+        background: #f0f0f0 !important;
+        border: 1px solid #ccc !important;
+      }
+
+      .documents-section h3, .documents-list li {
+        color: #000 !important;
+      }
+
+      /* Optimisation pour réduire le nombre de pages */
+      .form-grid {
+        gap: 10px;
+      }
+
+      fieldset {
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+
+      input, select, textarea {
+        padding: 8px 12px;
+        margin-bottom: 10px;
+      }
+
+      .table-finances th, .table-finances td {
+        padding: 8px;
+      }
+
+      .documents-section {
+        padding: 15px;
+        margin: 15px 0;
+      }
+
+      .documents-list li {
+        padding: 8px 12px;
+      }
+
+      .signature-section {
+        padding: 15px;
+      }
+
+      /* Éviter les sauts de page à l'intérieur des sections */
+      fieldset, .table-container, .documents-section, .signature-section {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Ldb3WkrAAAAAG1R2Ahja-tw72jOIGHRVb7MKyj3"></script>
+</head>
+<body>
+<div class="container">
+<div class="watermark-overlay">
+      SONAC - INFORMATIONS CONFIDENTIELLES
+    </div>
+<div class="content-wrapper">
+<header>
+<div class="header-confidentiel">CONFIDENTIEL</div>
+<h1>FICHE D'INFORMATION SUR VOTRE ACHETEUR</h1>
+<p><strong>SONAC - Société Nationale d'Assurance du Crédit et du Cautionnement</strong></p>
+<div class="header-details">
+<span class="address">55, Rue Wagane DIOUF, Immeuble TRIANON</span>
+<span class="phone">(+221) 33 889 82 10</span>
+<span class="email">courrier@sonac.sn</span>
+</div>
+</header>
+<div class="confidential-alerts">
+<div class="alert confidential">
+<div class="alert-icon"><i class="fas fa-lock"></i></div>
+<div>
+<strong>Confidentiel et strictement réservé au Crédit Intérieur.</strong>
+</div>
+</div>
+<div class="alert compliance">
+<div class="alert-icon"><i class="fas fa-check-circle"></i></div>
+<div>
+<strong>Les données doivent être conformes pour ne pas altérer l'analyse.</strong>
+</div>
+</div>
+</div>
+<div class="action-buttons">
+<button class="action-btn primary" onclick="generatePDF()">
+<i class="fas fa-file-pdf"></i> Enregistrer en PDF
+        </button>
+</div>
+<form id="buyerForm" method="POST" action="https://script.google.com/macros/s/AKfycbw-ZEmWfDaAlaCAetn_poyooPu8UtrnN1mvDXdf35TRlRiAix8G8YwaOqlLunskCIPk/exec">
+<input id="g-recaptcha-response" name="g-recaptcha-response" type="hidden"/>
+<fieldset>
+<legend>1. Informations de l'Assuré</legend>
+<div class="form-grid">
+<div class="form-group">
+<label for="nomAssure"><strong>Nom/Raison Sociale :</strong></label>
+<input id="nomAssure" name="nomAssure" placeholder="Nom ou raison sociale de l'assuré" type="text"/>
+</div>
+<div class="form-group">
+<label for="adresseAssure"><strong>Adresse :</strong></label>
+<textarea id="adresseAssure" name="adresseAssure" placeholder="Adresse complète de l'assuré" rows="3"></textarea>
+</div>
+<div class="form-group">
+<label for="contactAssure"><strong>Contact (Téléphone/Email) :</strong></label>
+<input id="contactAssure" name="contactAssure" placeholder="Téléphone et/ou email" type="text"/>
+</div>
+</div>
+</fieldset>
+<fieldset>
+<legend>2. Identification de l'Acheteur</legend>
+<div class="form-grid">
+<div class="form-group">
+<label for="nomAcheteur"><strong>Nom/Raison Sociale :</strong></label>
+<input id="nomAcheteur" name="nomAcheteur" placeholder="Nom ou raison sociale de l'acheteur" type="text"/>
+</div>
+<div class="form-group">
+<label for="formeJuridique"><strong>Forme Juridique :</strong></label>
+<select id="formeJuridique" name="formeJuridique" onchange="showOther(this, 'formeAutre')">
+<option value="">Sélectionnez la forme juridique</option>
+<option value="SARL">SARL</option>
+<option value="SA">SA</option>
+<option value="SUARL">SUARL</option>
+<option value="GIE">GIE</option>
+<option value="Auto-entrepreneur">Auto-entrepreneur</option>
+<option value="Association">Association</option>
+<option value="autre">Autre (préciser)</option>
+</select>
+<input id="formeAutre" name="formeAutre" placeholder="Précisez la forme juridique" style="display:none;" type="text"/>
+</div>
+<div class="form-group full-width">
+<label for="adresseAcheteur"><strong>Adresse :</strong></label>
+<textarea id="adresseAcheteur" name="adresseAcheteur" placeholder="Adresse complète de l'acheteur" rows="3"></textarea>
+</div>
+<div class="form-group">
+<label for="registreNinea"><strong>N° Registre du Commerce et NINEA :</strong></label>
+<input id="registreNinea" name="registreNinea" placeholder="Numéros de registre et NINEA" type="text"/>
+</div>
+<div class="form-group">
+<label for="secteurActivite"><strong>Secteur d'Activite :</strong></label>
+<select id="secteurActivite" name="secteurActivite" onchange="showOther(this, 'secteurAutre')">
+<option value="">Sélectionnez le secteur</option>
+<option value="Agriculture">Agriculture</option>
+<option value="Industrie">Industrie</option>
+<option value="BTP">BTP</option>
+<option value="Commerce">Commerce</option>
+<option value="Services">Services</option>
+<option value="Transports">Transports</option>
+<option value="MINIER">MINIER</option>
+<option value="Finance">Finance</option>
+<option value="Santé">Santé</option>
+<option value="Éducation">Éducation</option>
+<option value="autre">Autre (préciser)</option>
+</select>
+<input id="secteurAutre" name="secteurAutre" placeholder="Précisez le secteur" style="display:none;" type="text"/>
+</div>
+</div>
+</fieldset>
+<fieldset>
+<legend>3. Opération à Couvrir</legend>
+<div class="form-grid">
+<div class="form-group">
+<label for="typeOperation"><strong>Type d'Opération :</strong></label>
+<select id="typeOperation" name="typeOperation" onchange="toggleMaterielField(this)">
+<option value="">Sélectionnez le type</option>
+<option value="Vente de matériel">Vente de matériel</option>
+<option value="Prestation de services">Prestation de services</option>
+</select>
+</div>
+<div class="form-group" id="materielField" style="display:none;">
+<label for="precisionMateriel"><strong>Si Vente de Matériel, Préciser :</strong></label>
+<input id="precisionMateriel" name="precisionMateriel" placeholder="Précisez le type de matériel" type="text"/>
+</div>
+<div class="form-group full-width">
+<label for="descriptionOperation"><strong>Description Sommaire de l'Opération :</strong></label>
+<textarea id="descriptionOperation" name="descriptionOperation" placeholder="Description détaillée de l'opération" rows="4"></textarea>
+</div>
+<div class="form-group">
+<label for="montantOperation"><strong>Montant de l'Opération :</strong></label>
+<input class="number" id="montantOperation" name="montantOperation" oninput="formatNumber(this)" placeholder="0 FCFA" type="text"/>
+</div>
+<div class="form-group">
+<label for="conditionsPaiement"><strong>Conditions de Paiement :</strong></label>
+<select id="conditionsPaiement" name="conditionsPaiement" onchange="showOther(this, 'paiementAutre')">
+<option value="">Sélectionnez les conditions</option>
+<option value="30 jours">30 jours</option>
+<option value="60 jours">60 jours</option>
+<option value="90 jours">90 jours</option>
+<option value="120 jours">120 jours</option>
+<option value="autre">Autre (préciser)</option>
+</select>
+<input id="paiementAutre" name="paiementAutre" placeholder="Précisez les conditions" style="display:none;" type="text"/>
+</div>
+<div class="form-group">
+<label for="dateOperation"><strong>Date Prévue de l'Opération :</strong></label>
+<input id="dateOperation" name="dateOperation" type="date"/>
+</div>
+</div>
+</fieldset>
+<fieldset>
+<legend>4. Éléments Financiers des 3 Dernières Années</legend>
+<div class="table-container">
+<div class="table-finances-wrapper">
+<table class="table-finances">
+<thead>
+<tr>
+<th>Éléments Financiers</th>
+<th>Année N-1</th>
+<th>Année N-2</th>
+<th>Année N-3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chiffre d'affaires</td>
+<td><input class="number" name="caN1" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="caN2" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="caN3" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+</tr>
+<tr>
+<td>Résultat net</td>
+<td><input class="number" name="resultatN1" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="resultatN2" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="resultatN3" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+</tr>
+<tr>
+<td>Capitaux propres</td>
+<td><input class="number" name="capitauxN1" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="capitauxN2" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="capitauxN3" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+</tr>
+<tr>
+<td>Actifs circulants</td>
+<td><input class="number" name="actifsN1" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="actifsN2" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="actifsN3" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+</tr>
+<tr>
+<td>Passifs circulants</td>
+<td><input class="number" name="passifsN1" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="passifsN2" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="passifsN3" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+</tr>
+<tr>
+<td>Total endettement</td>
+<td><input class="number" name="endettementN1" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="endettementN2" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="endettementN3" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+</tr>
+<tr>
+<td>CAF/CAFG</td>
+<td><input class="number" name="cafN1" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="cafN2" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+<td><input class="number" name="cafN3" oninput="formatNumber(this)" placeholder="0" type="text"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="form-group finance-comment-group">
+<label for="commentairesFinanciers"><strong>Commentaires sur les Éléments Financiers :</strong></label>
+<textarea id="commentairesFinanciers" name="commentairesFinanciers" placeholder="" rows="4"></textarea>
+</div>
+</fieldset>
+<fieldset>
+<legend>5. Incidents de Paiement Antérieurs</legend>
+<div class="form-grid">
+<div class="form-group full-width">
+<label for="incidentsAssure"><strong>Historique d'Incidents avec l'Assuré (BIA) :</strong></label>
+<select id="incidentsAssure" name="incidentsAssure" onchange="toggleIncidentDetails(this)">
+<option value="">Sélectionnez</option>
+<option value="Oui">Oui</option>
+<option value="Non">Non</option>
+</select>
+<textarea id="detailsIncidents" name="detailsIncidents" placeholder="Si oui, détaillez les incidents..." rows="3" style="display:none; margin-top:10px;"></textarea>
+</div>
+<div class="form-group full-width">
+<label for="incidentsNotoires"><strong>Incidents Notoires (autres) :</strong></label>
+<textarea id="incidentsNotoires" name="incidentsNotoires" placeholder="Ex: Chèques impayés, retards importants, procédures judiciaires, etc." rows="4"></textarea>
+</div>
+</div>
+</fieldset>
+<div class="documents-section">
+<h3><i class="fas fa-file-alt"></i> Documents à Joindre</h3>
+<ul class="documents-list">
+<li>Présentation de l'acheteur</li>
+<li>Registre du Commerce et NINEA</li>
+<li>Copie de la Carte d'Identité des Dirigeants Principaux</li>
+<li>États financiers des 3 dernières années</li>
+</ul>
+<div class="form-grid" style="margin-top: 20px;">
+
+
+
+
+</div>
+</div>
+<fieldset>
+<legend>6. Certification et Signature</legend>
+<div class="form-grid">
+<div class="form-group full-width">
+<div style="background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%); padding: 20px; border-radius: 15px; border-left: 4px solid #28a745;">
+<p style="font-weight: bold; color: #155724; margin-bottom: 15px;">
+<i class="fas fa-check-circle"></i> Je soussigné(e), certifie que les informations fournies dans ce document sont exactes et complètes à ma connaissance.
+                </p>
+</div>
+</div>
+<div class="form-group">
+<label for="dateSignature"><strong>Date :</strong></label>
+<input id="dateSignature" name="dateSignature" type="date"/>
+</div>
+<div class="form-group">
+<label for="prenomNomSignature"><strong>Prénom et Nom :</strong></label>
+<input id="prenomNomSignature" name="prenomNomSignature" placeholder="Prénom et Nom du signataire" type="text" required/>
+</div>
+<div class="form-group">
+<label for="fonctionSignature"><strong>Fonction :</strong></label>
+<input id="fonctionSignature" name="fonctionSignature" placeholder="Fonction dans l'entreprise" type="text"/>
+</div>
+</div>
+</fieldset>
+<div class="signature-section">
+<div class="signature-header">
+<div class="signature-icon">
+<i class="fas fa-signature"></i>
+</div>
+<div class="signature-title">Signature Électronique Avancée</div>
+</div>
+<div class="signature-content">
+<div class="signature-pad">
+<label><strong>Signature :</strong></label>
+<div class="signature-pad-container" id="signaturePad">
+<div class="signature-pad-placeholder">Signez ici</div>
+<canvas id="signatureCanvas"></canvas>
+</div>
+<div style="display: flex; gap: 10px; margin-top: 15px;">
+<button class="action-btn secondary" onclick="clearSignature()" style="flex: 1;" type="button">
+<i class="fas fa-eraser"></i> Effacer
+                </button>
+<button class="action-btn primary" onclick="saveSignature()" style="flex: 1;" type="button">
+<i class="fas fa-save"></i> Valider
+                </button>
+</div>
+</div>
+<div class="signature-certificate">
+<div class="certificate-icon">
+<i class="fas fa-certificate"></i>
+</div>
+<div class="certificate-info">
+<h3 style="margin-bottom: 10px;">Certificat Électronique</h3>
+<p>Ce document sera certifié électroniquement après validation de votre signature.</p>
+<p>La signature électronique avancée garantit l'authenticité et l'intégrité du document.</p>
+<div class="certificate-status" id="certificateStatus" style="display: none;">
+<i class="fas fa-check-circle"></i> Document certifié
+                </div>
+</div>
+</div>
+</div>
+</div>
+<div class="action-buttons" style="margin-top: 20px;">
+<button class="action-btn primary" type="submit">
+<i class="fas fa-paper-plane"></i> Soumettre le formulaire
+          </button>
+</div>
+</form>
+<footer>
+<strong>SONAC - Société Nationale d'Assurance du Crédit et du Cautionnement</strong>
+<div class="footer-details">
+<span class="address">55, Rue Wagane DIOUF, Immeuble TRIANON</span>
+<span class="phone">(+221) 33 889 82 10</span>
+<span class="email">courrier@sonac.sn</span>
+</div>
+</footer>
+</div>
+</div>
+<script>
+    // Soumission du formulaire via une technique d'iframe pour contourner CORS
+    document.getElementById('buyerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+
+        // Afficher l'état de chargement
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+        submitBtn.disabled = true;
+
+        // Créer un iframe caché pour recevoir la réponse du script
+        const iframe = document.createElement('iframe');
+        iframe.name = 'hidden-iframe-for-submission';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        form.target = iframe.name;
+
+        // Gérer le cas où le script a bien fonctionné ou a échoué
+        let submissionTimeout = setTimeout(() => {
+            handleSubmissionResponse('error');
+        }, 15000); // Sécurité : erreur si pas de réponse après 15s
+
+        iframe.onload = function() {
+            clearTimeout(submissionTimeout);
+            handleSubmissionResponse('success');
+            form.reset(); // Vider le formulaire après succès
+            clearSignature(); // Vider la signature
+        };
+        
+        // Soumettre le formulaire vers l'iframe
+        form.submit();
+    });
+
+    function handleSubmissionResponse(status) {
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const originalText = 'Soumettre le formulaire'; // Texte original du bouton
+
+        if (status === 'success') {
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Envoyé avec succès !';
+            submitBtn.style.backgroundColor = '#00b894';
+            showNotification('Votre formulaire a été soumis avec succès.', 'success');
+        } else {
+            submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Erreur - Réessayer';
+            submitBtn.style.backgroundColor = '#ff6b6b';
+            showNotification("Une erreur est survenue. Veuillez vérifier votre connexion et réessayer.", 'error');
+        }
+
+        // Restaurer le bouton après un délai
+        setTimeout(() => {
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> ' + originalText;
+            submitBtn.disabled = false;
+            submitBtn.style.backgroundColor = '';
+        }, 4000);
+
+        // Nettoyer l'iframe
+        const iframe = document.querySelector('iframe[name="hidden-iframe-for-submission"]');
+        if (iframe) {
+            document.body.removeChild(iframe);
+        }
+    }
+
+    // Le reste du script reste identique (showNotification, formatNumber, signature, etc.)
+
+    // Fonction pour afficher les notifications
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+        max-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      `;
+
+      if (type === 'success') {
+        notification.style.backgroundColor = '#00b894';
+      } else {
+        notification.style.backgroundColor = '#ff6b6b';
+      }
+
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      // Supprimer la notification après 5 secondes
+      setTimeout(() => {
+        notification.remove();
+      }, 5000);
+    }
+
+    // Animation CSS pour la notification
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Formatage des nombres avec séparateurs de milliers
+    function formatNumber(input) {
+      // Supprimer tous les caractères non numériques sauf le point décimal
+      let value = input.value.replace(/[^\d.]/g, '');
+
+      // Vérifier s'il y a un point décimal
+      let hasDecimal = value.includes('.');
+      let decimalPart = '';
+
+      if (hasDecimal) {
+        // Séparer la partie entière et la partie décimale
+        let parts = value.split('.');
+        value = parts[0];
+        decimalPart = '.' + parts[1];
+      }
+
+      // Formater la partie entière avec des séparateurs de milliers
+      if (value.length > 0) {
+        value = parseInt(value, 10).toLocaleString('fr-FR');
+      }
+
+      // Recombiner avec la partie décimale si elle existe
+      input.value = value + decimalPart;
+    }
+
+    // Afficher/Cacher le champ "Autre" dans les listes déroulantes
+    function showOther(selectObj, targetId) {
+      var target = document.getElementById(targetId);
+      if (selectObj.value === 'autre') {
+        target.style.display = 'block';
+        target.focus();
+      } else {
+        target.style.display = 'none';
+        target.value = '';
+      }
+    }
+
+    // Afficher le champ matériel si "Vente de matériel" est sélectionné
+    function toggleMaterielField(selectObj) {
+      var materielField = document.getElementById('materielField');
+      if (selectObj.value === 'Vente de matériel') {
+        materielField.style.display = 'block';
+      } else {
+        materielField.style.display = 'none';
+        document.getElementById('precisionMateriel').value = '';
+      }
+    }
+
+    // Afficher le champ de détails des incidents si "Oui" est sélectionné
+    function toggleIncidentDetails(selectObj) {
+      var detailsField = document.getElementById('detailsIncidents');
+      if (selectObj.value === 'Oui') {
+        detailsField.style.display = 'block';
+      } else {
+        detailsField.style.display = 'none';
+        detailsField.value = '';
+      }
+    }
+
+    // Initialisation et gestion de la signature électronique
+    let signaturePad;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.getElementById('signatureCanvas');
+      signaturePad = new SignaturePad(canvas, {
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        penColor: 'rgb(0, 0, 0)'
+      });
+
+      // Redimensionner le canvas pour qu'il corresponde à son conteneur
+      function resizeCanvas() {
+        const container = document.getElementById('signaturePad');
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = container.offsetWidth * ratio;
+        canvas.height = container.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear(); // Effacer le contenu après redimensionnement
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      // Masquer le placeholder lorsque l'utilisateur commence à signer
+      signaturePad.addEventListener("beginStroke", function() {
+        document.querySelector('.signature-pad-placeholder').style.display = 'none';
+      });
+
+      // Ajouter des effets de défilement fluide pour les ancres
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          // e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+
+      // Ajouter des effets de survol pour les éléments interactifs
+      const interactiveElements = document.querySelectorAll('input, select, textarea, button');
+      interactiveElements.forEach(element => {
+        element.addEventListener('mouseover', function() {
+          this.style.transition = 'all 0.3s ease';
+          if (this.tagName === 'BUTTON') {
+            this.style.transform = 'translateY(-2px)';
+          }
+        });
+
+        element.addEventListener('mouseout', function() {
+          if (this.tagName === 'BUTTON') {
+            this.style.transform = 'translateY(0)';
+          }
+        });
+      });
+
+      // Effet de focus automatique sur le premier champ
+      setTimeout(() => {
+        document.getElementById('nomAssure').focus();
+      }, 1000);
+
+      // Formater les champs numériques existants
+      document.querySelectorAll('.number').forEach(input => {
+        formatNumber(input);
+      });
+    });
+
+    function clearSignature() {
+      signaturePad.clear();
+      document.querySelector('.signature-pad-placeholder').style.display = 'block';
+      document.getElementById('certificateStatus').style.display = 'none';
+    }
+
+    function saveSignature() {
+      if (signaturePad.isEmpty()) {
+        alert('Veuillez signer avant de valider.');
+        return;
+      }
+
+      // Afficher le statut de certification
+      document.getElementById('certificateStatus').style.display = 'inline-block';
+
+      // Ajouter un effet visuel pour montrer que le document est certifié
+      const signatureSection = document.querySelector('.signature-section');
+      signatureSection.style.boxShadow = '0 0 20px rgba(0, 184, 148, 0.3)';
+      signatureSection.style.borderLeftColor = '#00b894';
+
+      alert('Signature électronique validée avec succès ! Le document est maintenant certifié.');
+    }
+  </script>
+</body>
+</html>
